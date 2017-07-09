@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+<!-- question.html -->
+{% load node_tags %}
+{% load extra_tags %}
+{% load extra_filters %}
+{% load general_sidebar_tags %}
+{% load smart_if %}
+{% load humanize %}
+{% load i18n %}
+{% load cache %}
+{% block metadescription %}{{ term.meta_description }}{% endblock %}
+{% block metakeywords %}{{term.tagname_meta_generator}}{% endblock %}
+{% block meta %}
+        <link rel="canonical" href="{{settings.APP_BASE_URL}}{{term.get_absolute_url}}" />
+{% endblock %}
+{% block title %}{% spaceless %}{{ term.headline }}{% endspaceless %}{% endblock %}
+{% block forejs %}
+        {% if not question.nis.closed %}
+        <script type='text/javascript' src='{% media  "/media/js/osqa.question.js" %}'></script>
+        <script type='text/javascript' src='{% media  "/media/js/jquery.caret.js" %}'></script>
+        <script type='text/javascript' src='{% media  "/media/js/wmd/showdown.js" %}'></script>
+        <script type='text/javascript' src='{% media  "/media/js/wmd/wmd.js" %}'></script>
+        <script type='text/javascript' src='{% media  "/media/js/html_sanitizer.js" %}'></script>
+        <link rel="stylesheet" type="text/css" href="{% media  "/media/js/wmd/wmd.css" %}" />
+
+        {% if embed_youtube_videos %}
+        <script type='text/javascript' src='{% media  "/media/js/viewbox_min.js" %}'></script>
+        <script type='text/javascript' src='{% media  "/media/js/youtube.js" %}'></script>
+        <link rel="stylesheet" type="text/css" href="{% media  "/media/js/viewbox.css" %}" />
+        {% endif %}
+        {% endif %}
+
+        <script type="text/javascript">
+        $().ready(function(){
+            $("#nav_questions").attr('className',"on");
+            var answer_sort_tab = "{{ tab_id }}";
+
+            if (answer_sort_tab) {
+                $("#" + answer_sort_tab).attr('className',"on");
+            }
+
+            $('#editor').TextAreaResizer();
+
+            //toggle preview of editor
+            var display = true;
+            var txt = "[{% trans "hide preview" %}]";
+            $('#pre-collapse').text(txt);
+            $('#pre-collapse').bind('click', function(){
+                txt = display ? "[{% trans "show preview" %}]" : "[{% trans "hide preview" %}]";
+                display = !display;
+                $('#previewer').toggle();
+                $('#pre-collapse').text(txt);
+            });
+        });
+
+        function submitClicked(e, f) {
+            if(!(browserTester('chrome') || browserTester('safari'))) {
+                $("input.submit")[0].disabled=true;
+            }
+            window.removeEventListener('beforeunload', beforeUnload, true);
+            if (f) {
+                f.submit();
+            }
+        }
+
+        function beforeUnload(e) {
+
+            if($("textarea#editor")[0].value != "") {
+                return yourWorkWillBeLost(e);
+            }
+
+            var commentBoxes = $("textarea.commentBox");
+            for(var index = 0; index < commentBoxes.length; index++) {
+                if(commentBoxes[index].value != "") {
+                    return yourWorkWillBeLost(e);
+                }
+            }
+        }
+        window.addEventListener('beforeunload', beforeUnload, true);
+        </script>
+        <noscript>
+            <style>
+                .comment.not_top_scorer {
+                    display: block;
+                }
+                .comment-form-container {
+                    display: block;
+                }
+                .div.comment-tools {
+                    display: none;
+                }
+            </style>
+        </noscript>
+{% endblock %}
+
+{% block content %}
+<article itemscope itemtype="http://schema.org/CreativeWork"> 
+<div class="headNormal" > 
+    <h1 itemprop="headline"><a href="{{ term.get_absolute_url }}">{{ term.headline }}</a></h1>
+</div>
+<div id="main-body" class="" itemscope >
+    <div id="askform">
+            <table style="width:100%;" id="termtable" >
+                <tr>
+                    <td>
+                        <div id="item-right">
+                            <div itemprop="text" style="font-size:medium">
+                                {{ term.html|safe }}
+                            </div>
+                            <div id="question-tags" class="tags-container tags">
+                                {% for tag in term.tagname_list %}
+                                    <a href="{% url "tag_questions" tag|urlencode %}" class="post-tag tag-link-{{ tag }}"
+                                        title="{% blocktrans with tag as tagname %}see questions tagged '{{ tagname }}'{% endblocktrans %}" rel="tag">{{ tag }}</a>
+                                {% endfor %}
+                            </div>
+                            
+                            
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td><br/></td>
+                </tr> 
+                <tr>
+                    <td><br/></td>
+                </tr>    
+                <tr>
+                    <td style="background-color:#B6C4E2"><h2>Related Terms</h2></td>
+                </tr>
+                {% for term in similar_terms %}
+                
+                <tr>
+                    <td style="background-color:#E5EBF8;">
+                        <h3><a href="{{ term.get_absolute_url }}">{{ term.headline }}</a></h2>
+                        <div id="item-right">
+                            <div itemprop="text">
+                                {{ term.html|safe }}
+                            </div>
+                            <div id="question-tags" class="tags-container tags">
+                                {% for tag in term.tagname_list %}
+                                    <a href="{% url "tag_questions" tag|urlencode %}" class="post-tag tag-link-{{ tag }}"
+                                        title="{% blocktrans with tag as tagname %}see terms tagged '{{ tagname }}'{% endblocktrans %}" rel="tag">{{ tag }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        
+    </div>
+</div>
+</article>
+{% endblock %}
+
+{% block sidebar %}
+
+{% markdown_help %}
+
+{% sidebar_upper %}
+
+{% cache 60 questions_tags settings.APP_URL question.id %}
+<div class="boxC">
+    <p>
+        {% trans "Term tags" %}:
+    </p>
+    <p class="tags" >
+        {% for tag in term.tags.all %}
+        <a href="{% url "tag_questions" tag.name|urlencode %}"
+            class="tag-link-{{ tag.name }}"
+            title="{% trans "see questions tagged"%}'{{tag.name}}'{% trans "using tags" %}"
+            rel="tag">{{ tag.name }}</a> <span class="tag-number">&#215;{{ tag.used_count|intcomma }}</span><br/>
+        {% endfor %}
+    </p>
+    
+</div>
+{% endcache %}
+{% sidebar_lower %}
+<div class="boxC">
+    <h3 class="subtitle">{% trans "Related terms" %}</h3>
+    <div class="questions-related">
+
+        {% for term in similar_terms %}
+        <p>
+            <a href="{{ term.get_absolute_url }}">{{ term.headline }}</a>
+        </p>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block endjs %}
+{% endblock %}
+<!-- end term.html -->

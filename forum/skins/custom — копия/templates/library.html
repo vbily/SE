@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+<!-- template library.html -->
+{% load extra_tags %}
+{% load humanize %}
+{% load i18n %}
+{% block title %}{% spaceless %}{% trans "Library" %}{% endspaceless %}{% endblock %}
+{% block content %}
+<div class="headlineA">
+        <span class="headMedals">{% trans "Library" %}</span>
+</div>
+<div  class="badges" id="main-body" style="width:100%">
+    <p>
+	{% trans "This is our carefully collected library." %}
+	{% blocktrans %}Below is the list of available books.
+    {% endblocktrans %}
+    </p>
+    <div id="medalList">
+    {% for book in books %}
+    <div style="clear:both;line-height:30px;width:100%">
+        <div class="badgeListItem" style="width:100%">
+        <a href="{{book.url}}" class="medal" style="width:100%">{{book.title}}</a>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% block sidebar %}
+{% endblock %}
+<!-- end template library.html -->

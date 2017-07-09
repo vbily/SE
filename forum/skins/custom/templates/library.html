@@ -1,0 +1,25 @@
+{% extends "base_content.html" %}
+<!-- template library.html -->
+{% load extra_tags %}
+{% load humanize %}
+{% load i18n %}
+{% block title %}{% spaceless %}{% trans "Library" %}{% endspaceless %}{% endblock %}
+{% block content %}
+<div class="tabBar">
+    <div class="headQuestions">
+        {% trans "Library" %}    
+    </div>
+    {% include "lib_sort_tabs.html" %}
+</div>
+
+<div  id="listA" style="width:100%">
+    <p>
+	{% trans "This is our carefully collected library." %}
+    </p>
+    
+    {{ tree_view }}
+    
+</div>
+{% endblock %}
+
+<!-- end template library.html -->

@@ -1,0 +1,6 @@
+{% load i18n %}
+
+<div class="tabsA">
+    <a id="tree" href="{{ base_url }}tree"{% ifequal current "tree" %} class="on"{% endifequal %} title="{% trans "tree view of library" %}">{% trans "tree" %}</a>
+    <a id="shelf" href="{{ base_url }}shelf"{% ifequal current "shelf" %} class="on"{% endifequal %} title="{% trans "just bookshelf" %}">{% trans "shelf" %}</a>
+</div>

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+<!-- cases.html -->
+{% load question_list_tags %}
+{% load i18n %}
+{% load extra_tags %}
+{% load general_sidebar_tags %}
+
+{% block title %}{% spaceless %}{{ page_title }}{% endspaceless %}{% endblock %}
+
+{% block content %}
+
+<div class="tabBar">
+    {% include "case_list/title.html" %}
+    {{ cases.paginator.sort_tabs }}
+</div>
+<div id="listA">{% for case in cases.paginator.page %}
+    {% if show_summary %}
+      {% case_list_item case case_summary=yes %}
+    {% else %}
+      {% case_list_item case %}
+    {% endif %}
+{% endfor %}</div>
+{% endblock %}
+
+{% block tail %}
+    <div class="pager">{{ cases.paginator.page_numbers }}</div>
+    <div class="pagesize">{{ cases.paginator.page_sizes }}</div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include "case_list/count.html" %}
+    {% sidebar_upper %}
+    {% tag_selector %}
+    {% sidebar_lower %}
+    {% question_list_related_tags cases.paginator.page %}
+
+{% endblock %}
+<!-- end cases.html -->

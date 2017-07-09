@@ -1,0 +1,27 @@
+{% load i18n humanize extra_filters extra_tags user_tags %}
+{% if term.approved %}
+<div class="short-summary" itemscope itemtype="http://schema.org/Question">
+{% else%}
+<div class="short-summary" style="background: #FF5555;opacity: 0.5;" itemscope itemtype="http://schema.org/Question">
+{% endif %}
+   
+
+   
+        <h2 itemprop="name"><a {% if not term_summary %}title="{{ term.summary }}"{% endif %} href="{{ term.get_absolute_url }}">{{term.headline}}</a></h2>
+        {% if term_summary %}
+        <div class="summary">
+          {{ term.summary }}
+        </div>
+        {% endif %}
+
+        
+            {{ term.html|safe }}
+        
+        
+
+        <div class="tags">{% for tag in term.tagname_list %}
+            <a class="tag-link-{{ tag }}" href="{% url "tag_questions" tag|urlencode %}" title="{% trans "see questions tagged" %} '{{ tag }}'" rel="tag">{{ tag }}</a>{% endfor %}
+        </div>
+    
+
+</div>

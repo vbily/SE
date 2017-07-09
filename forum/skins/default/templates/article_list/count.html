@@ -1,0 +1,10 @@
+{% spaceless %}
+{% load i18n humanize extra_tags %}
+
+
+<div class="boxC">
+    <div class="questions-count">
+        {{ articles.paginator.count }}<span style="color:black;font-size:14px;margin-left:5px">{{ list_description }}</span>
+    </div>
+</div>
+{% endspaceless %}

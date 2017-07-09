@@ -1,0 +1,58 @@
+<!-- template header.html -->
+{% load extra_tags ui_registry i18n extra_filters %}
+
+	<div id="roof">
+	    <header style="position: absolute; height: 10%;color:lightgray;width:100%">
+		<div id="logo">
+			<a href="{% url "index" %}">
+				<img src="{{ settings.APP_LOGO }}" title="{% trans "back to home page" %}" alt="{{settings.APP_TITLE}} logo"/>
+			</a>
+		</div>
+	   <nav style="display:inline-block;">
+           <ol>
+               <li>
+                   <a id="nav-questions" href="/questions/">Knowledge Base</a>
+                   <a id="nav-advisers" href="/advisors/">Advisers</a>
+               </li>
+           </ol>
+        </nav>
+		<div  style="display:inline-block;">
+            
+		    {% loadregistry header_links %}{% endloadregistry %}
+            
+		</div>
+        </header>
+        <div id="nav">
+            {% loopregistry page_top_tabs %}{% spaceless %}
+                <a id="nav_{{ tab_name }}"{% ifequal tab tab_name %} class="on"{% endifequal %} href="{{ tab_url }}" >{{ tab_title }}</a>
+            {% endspaceless %}{% endloopregistry %}
+            <a id="nav_ask" href="{% url "ask" %}" class="special">{% trans "ask" %}</a>
+            <a id="nav_add_case" href="{% url "add_case" %}" class="special" style="float: right;color: #B02B2C;font-size: 14px;font-weight: bold;text-decoration: none;">{% trans "+ case" %}</a>
+            <a id="nav_add_article" href="{% url "add_article" %}" class="special" style="float: right;color: #B02B2C;font-size: 14px;font-weight: bold;text-decoration: none;">{% trans "+ article" %}</a>
+        </div>
+    </div>
+
+  <div class="clear"></div>
+  
+	<div id="searchBar">
+    <form action="{% url "search" %}" method="get">
+        {% csrf_token %}
+        <div>
+            <input type="text" class="searchInput" value="{{ keywords }}" name="q" id="keywords" />
+            <input type="submit" name="Submit" value="{% trans "lookup" %}" class="searchBtn" />
+        </div>
+        <div class="options">
+            <input id="type-question" type="radio" value="questions" name="t" 
+                checked="checked" /><label for="type-question">{% trans "topics" %}</label>
+            <input id="type-tag" type="radio" value="tag" name="t" /><label for="type-tag">{% trans "tags" %}</label>
+        </div>
+    </form>	
+	</div>
+
+	{% if settings.USE_ANNOUNCEMENT_BAR|or_preview:request %}
+  <div id="announcement">
+      {{ settings.ANNOUNCEMENT_BAR|or_preview:request|static_content:settings.ANNOUNCEMENT_BAR_RENDER_MODE }}
+  </div>
+  {% endif %}
+
+<!-- end template header.html -->

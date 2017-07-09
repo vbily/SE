@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+<!-- dashboard.html -->
+{% load question_list_tags %}
+{% load i18n %}
+{% load extra_tags %}
+{% load general_sidebar_tags %}
+
+{% block title %}{% spaceless %}{{ page_title }}{% endspaceless %}{% endblock %}
+
+{% block meta %}
+  
+{% endblock %}
+
+{% block content %}
+
+<div class="tabBar">
+    {% include "dash_list/title.html" %}
+    {{ nodes.paginator.sort_tabs }}
+</div>
+<div id="listA">
+    {% for n in nodes.paginator.page %}
+        {% if show_summary %}
+            {% dash_list_item n node_summary=yes %}
+        {% else %}
+            {% dash_list_item n %}
+        {% endif %}
+    {% endfor %}
+<div style="background: none repeat scroll 0 0 #E5EBF8; padding-left:-30; margin-bottom: 8px; ">
+<h3 >Search marine sites</h3>
+<style type="text/css">
+#arsite-cse-box-1 {
+  /* existing styles */
+  margin:0px;
+  padding:0px;
+}
+
+#arsite-cse-box-1 .cse .gsc-control-cse, #arsite-cse-box-1 .gsc-control-cse {
+  /* https://productforums.google.com/forum/#!category-topic/customsearch/yjiZbSwZ9vw */
+  margin:0px;
+  padding:0px;
+}
+</style>
+
+<div id="arsite-cse-box-1" style="height:10cm; overflow: scroll;">
+<script>
+  (function() {
+    var cx = '002569696683493309465:7pn2hpc4oxy';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block tail %}
+    <div class="pager">{{ nodes.paginator.page_numbers }}</div>
+    <div class="pagesize">{{ nodes.paginator.page_sizes }}</div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include "nodes_list/count.html" %}
+    {% sidebar_upper %}
+    {% tag_selector %}
+    {% sidebar_lower %}
+    {% node_list_related_tags nodes.paginator.page %}
+
+{% endblock %}
+<!-- end dashboard.html -->

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+<!-- terms.html -->
+{% load question_list_tags %}
+{% load i18n %}
+{% load extra_tags %}
+{% load general_sidebar_tags %}
+
+{% block title %}{% spaceless %}{{ page_title }}{% endspaceless %}{% endblock %}
+
+
+{% block content %}
+
+
+<div id="listA">{% for term in terms.paginator.page %}
+    {% if show_summary %}
+      {% term_list_item term term_summary=yes %}
+    {% else %}
+      {% term_list_item term %}
+    {% endif %}
+{% endfor %}</div>
+{% endblock %}
+
+{% block tail %}
+    <div class="pager">{{ terms.paginator.page_numbers }}</div>
+    <div class="pagesize">{{ terms.paginator.page_sizes }}</div>
+{% endblock %}
+
+{% block sidebar %}
+    <!-- {% include "question_list/count.html" %}-->
+    {% sidebar_upper %}
+    {% tag_selector %}
+    {% sidebar_lower %}
+    {% question_list_related_tags questions.paginator.page %}
+
+{% endblock %}
+<!-- end termss.html -->

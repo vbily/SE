@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+<!-- case.html -->
+{% load node_tags %}
+{% load extra_tags %}
+{% load extra_filters %}
+{% load general_sidebar_tags %}
+{% load smart_if %}
+{% load humanize %}
+{% load i18n %}
+{% load cache %}
+{% block metadescription %}{{ case.meta_description }}{% endblock %}
+{% block metakeywords %}{{case.tagname_meta_generator}}{% endblock %}
+{% block meta %}
+        <link rel="canonical" href="{{settings.APP_BASE_URL}}{{case.get_absolute_url}}" />
+{% endblock %}
+{% block title %}{% spaceless %}{{ case.headline }}{% endspaceless %}{% endblock %}
+{% block forejs %}
+        {% if not case.nis.closed %}
+        <script type='text/javascript' src='{% media  "/media/js/osqa.question.js" %}'></script>
+        <script type='text/javascript' src='{% media  "/media/js/jquery.caret.js" %}'></script>
+        <script type='text/javascript' src='{% media  "/media/js/wmd/showdown.js" %}'></script>
+        <script type='text/javascript' src='{% media  "/media/js/wmd/wmd.js" %}'></script>
+        <script type='text/javascript' src='{% media  "/media/js/html_sanitizer.js" %}'></script>
+        <link rel="stylesheet" type="text/css" href="{% media  "/media/js/wmd/wmd.css" %}" />
+
+        {% if embed_youtube_videos %}
+        <script type='text/javascript' src='{% media  "/media/js/viewbox_min.js" %}'></script>
+        <script type='text/javascript' src='{% media  "/media/js/youtube.js" %}'></script>
+        <link rel="stylesheet" type="text/css" href="{% media  "/media/js/viewbox.css" %}" />
+        {% endif %}
+        {% endif %}
+
+        <script type="text/javascript">
+        $().ready(function(){
+            $("#nav_cases").attr('className',"on");
+            var answer_sort_tab = "{{ tab_id }}";
+
+            if (answer_sort_tab) {
+                $("#" + answer_sort_tab).attr('className',"on");
+            }
+
+            $('#editor').TextAreaResizer();
+
+            //toggle preview of editor
+            var display = true;
+            var txt = "[{% trans "hide preview" %}]";
+            $('#pre-collapse').text(txt);
+            $('#pre-collapse').bind('click', function(){
+                txt = display ? "[{% trans "show preview" %}]" : "[{% trans "hide preview" %}]";
+                display = !display;
+                $('#previewer').toggle();
+                $('#pre-collapse').text(txt);
+            });
+        });
+
+        function submitClicked(e, f) {
+            if(!(browserTester('chrome') || browserTester('safari'))) {
+                $("input.submit")[0].disabled=true;
+            }
+            window.removeEventListener('beforeunload', beforeUnload, true);
+            if (f) {
+                f.submit();
+            }
+        }
+
+        function beforeUnload(e) {
+
+            if($("textarea#editor")[0].value != "") {
+                return yourWorkWillBeLost(e);
+            }
+
+            var commentBoxes = $("textarea.commentBox");
+            for(var index = 0; index < commentBoxes.length; index++) {
+                if(commentBoxes[index].value != "") {
+                    return yourWorkWillBeLost(e);
+                }
+            }
+        }
+        window.addEventListener('beforeunload', beforeUnload, true);
+        </script>
+        <noscript>
+            <style>
+                .comment.not_top_scorer {
+                    display: block;
+                }
+                .comment-form-container {
+                    display: block;
+                }
+                .div.comment-tools {
+                    display: none;
+                }
+            </style>
+        </noscript>
+{% endblock %}
+
+{% block content %}
+<div class="headNormal" itemscope itemtype="http://schema.org/Article"> 
+    <h1 itemprop="name"><a href="{{ case.get_absolute_url }}">{{ case.headline }}</a></h1>
+</div>
+<div id="main-body" class="" itemscope itemtype="http://schema.org/Article">
+    <div id="askform">
+            <table style="width:100%;" id="question-table" {% post_classes case %}>
+                <tr>
+                    <td style="width:30px;vertical-align:top">
+                        <div class="vote-buttons">
+                            {% vote_buttons case request.user %}
+                            {% favorite_mark case request.user %}
+                        </div>
+                    </td>
+                    <td>
+                        <div id="item-right">
+                            <div class="question-body" itemprop="text">
+                                {{ case.html|safe }}
+                            </div>
+                            <div id="question-tags" class="tags-container tags">
+                                {% for tag in case.tagname_list %}
+                                    <a href="{% url "tag_questions" tag|urlencode %}" class="post-tag tag-link-{{ tag }}"
+                                        title="{% blocktrans with tag as tagname %}see cases tagged '{{ tagname }}'{% endblocktrans %}" rel="tag">{{ tag }}</a>
+                                {% endfor %}
+                            </div>
+                            <div id="question-controls" class="post-controls">
+                                {% post_controls case request.user %}
+                                
+                            </div>
+                            <div class="post-update-info-container">
+                                    {% contributors_info case %}
+                            </div>
+                            {% comments case request.user %}
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+
+{% markdown_help %}
+
+{% sidebar_upper %}
+
+{% cache 60 questions_tags settings.APP_URL question.id %}
+<div class="boxC">
+    <p>
+        {% trans "Question tags" %}:
+    </p>
+    <p class="tags" >
+        {% for tag in question.tags.all %}
+        <a href="{% url "tag_questions" tag.name|urlencode %}"
+            class="tag-link-{{ tag.name }}"
+            title="{% trans "see questions tagged"%}'{{tag.name}}'{% trans "using tags" %}"
+            rel="tag">{{ tag.name }}</a> <span class="tag-number">&#215;{{ tag.used_count|intcomma }}</span><br/>
+        {% endfor %}
+    </p>
+    <p>
+        {% trans "case study added" %}: <strong title="{{ case.added_at }}">{% diff_date case.added_at %}</strong>
+    </p>
+    <p> 
+     	{% trans "case study was seen" %}: <strong>{{ case.view_count|intcomma }} {% trans "times" %}</strong>
+    </p>
+    <p> 
+        {% trans "last updated" %}: <strong title="{{ case.last_activity_at }}">{% diff_date case.last_activity_at %}</strong>
+    </p>
+</div>
+{% endcache %}
+{% sidebar_lower %}
+<div class="boxC">
+    <h3 class="subtitle">{% trans "Related questions" %}</h3>
+    <div class="questions-related">
+
+        {% for question in similar_questions %}
+        <p>
+            <a href="{{ question.get_absolute_url }}">{{ question.headline }}</a>
+        </p>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block endjs %}
+{% endblock %}
+<!-- end case.html -->
