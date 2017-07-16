@@ -14,7 +14,7 @@
         
         <div class="views">
              <div class="item-count">{{question.view_count|decorated_int|safe}}</div>
-             <div>{% ifequal question.view_count 1 %}{% trans "view" %}{% else %}{% trans "views" %}{% endifequal %}</div>
+             <div class="item-count-label">{% ifequal question.view_count 1 %}{% trans "view" %}{% else %}{% trans "views" %}{% endifequal %}</div>
         </div>
 
         {% ifequal question.answer_count 0 %} 
@@ -23,7 +23,7 @@
         {% else %}
         <div {% if question.accepted_count %}title="{% trans "this question has an accepted answer" %}"{% endif %} class="status {% if question.accepted_count %}answered-accepted{% endif %} {% ifequal question.answer_count 0 %}unanswered{% endifequal %}{% ifnotequal question.answer_count 0 %}answered{% endifnotequal %}">
             <div class="item-count">{{question.answer_count|intcomma}}</div>
-            <div>{% ifequal question.answer_count 1 %}{% trans "answer" %}{% else %}{% trans "answers" %}{% endifequal %}</div>
+            <div class="item-count-label">{% ifequal question.answer_count 1 %}{% trans "answer" %}{% else %}{% trans "answers" %}{% endifequal %}</div>
         </div>
         {% endifequal %}
 

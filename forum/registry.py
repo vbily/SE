@@ -21,8 +21,7 @@ except:
     pass
 
 ui.register(ui.HEADER_LINKS,
-            ui.Link(_('faq'), ui.Url('faq'), weight=400, name='FAQ'),
-            ui.Link(_('about'), ui.Url('about'), weight=300, name='ABOUT'),
+           
             ui.Link(_('users'), ui.Url('users'), weight=200, name='ABOUT'),
             ui.Link(
                     visibility=ui.Visibility.ANONYMOUS,

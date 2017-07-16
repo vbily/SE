@@ -95,17 +95,24 @@
 
 {% block content %}
 <article itemscope itemtype="http://schema.org/CreativeWork"> 
-<div class="headNormal" > 
-    <h1 itemprop="headline"><a href="{{ term.get_absolute_url }}">{{ term.headline }}</a></h1>
-</div>
-<div id="main-body" class="" itemscope >
+
+    <h1 style="border-bottom: 1px solid #777777;
+                font-weight: bold;
+                margin-bottom: 12px;
+                padding: 3px;
+                text-align: left" itemprop="headline">
+                {{ term.headline }}</h1>
+
+
     <div id="askform">
             <table style="width:100%;" id="termtable" >
-                <tr>
-                    <td>
-                        <div id="item-right">
-                            <div itemprop="text" style="font-size:medium">
+                <tr >
+                    <td style="padding-bottom:40px">
+                        
+                            <div itemprop="text" >
+                                <p>
                                 {{ term.html|safe }}
+                                </p>
                             </div>
                             <div id="question-tags" class="tags-container tags">
                                 {% for tag in term.tagname_list %}
@@ -114,17 +121,11 @@
                                 {% endfor %}
                             </div>
                             
-                            
-                        </div>
+                      
 
                     </td>
                 </tr>
-                <tr>
-                    <td><br/></td>
-                </tr> 
-                <tr>
-                    <td><br/></td>
-                </tr>    
+               
                 <tr>
                     <td style="background-color:#B6C4E2"><h2>Related Terms</h2></td>
                 </tr>
@@ -133,9 +134,11 @@
                 <tr>
                     <td style="background-color:#E5EBF8;">
                         <h3><a href="{{ term.get_absolute_url }}">{{ term.headline }}</a></h2>
-                        <div id="item-right">
+                       
                             <div itemprop="text">
+                                <p>
                                 {{ term.html|safe }}
+                                </p>
                             </div>
                             <div id="question-tags" class="tags-container tags">
                                 {% for tag in term.tagname_list %}
@@ -143,14 +146,14 @@
                                         title="{% blocktrans with tag as tagname %}see terms tagged '{{ tagname }}'{% endblocktrans %}" rel="tag">{{ tag }}</a>
                                 {% endfor %}
                             </div>
-                        </div>
+                       
                     </td>
                 </tr>
                 {% endfor %}
             </table>
         
     </div>
-</div>
+
 </article>
 {% endblock %}
 

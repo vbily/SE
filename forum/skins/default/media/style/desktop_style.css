@@ -1,0 +1,312 @@
+@media (min-width: 1000px){
+    #logo {
+        float: left;
+        padding: 5px 0 0;
+    }
+    #logo_mobile{
+        display: none;
+    }
+    p {
+        font-size: 13px;
+        line-height: 140%;
+        margin-bottom: 13px;
+    }
+
+    div {
+        margin: 0 auto;
+        padding: 0;
+    }
+    body {
+        /*overflow-y: scroll;
+        height: 100%; */
+        background: none repeat scroll 0 0 #FFFFFF;
+        color: #000000;
+        font-family: sans-serif;
+        font-size: 12px;
+        line-height: 150%;
+        margin: 0;
+        padding: 0;
+    }
+    #CARight {
+        float: right;
+        width: 240px;
+    }
+    #CALeft {
+        float: left;
+        position: relative;
+        width: 740px;
+    }
+    #CAFull {
+        float: left;
+        padding: 0 5px;
+        width: 950px;
+    }
+    #wrapper, #announcement {
+        margin: auto;
+        padding: 0;
+        width: 990px;
+        background-color: #FFF;
+    }
+
+    #roof {
+        width: 990px;
+    }
+    .short-summary {
+        border-top: 1px dotted #CCCCCE;
+        float: left;
+        overflow: hidden;
+        padding: 3px 0px 5px 0;
+        position: relative;
+        width: 740px;
+    }
+    .short-summary .counts {
+        float: left;
+        margin-right: 0px;
+        margin-top: 4px;
+        padding-right: 2px;
+    }
+
+    .short-summary .counts .item-count {
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .short-summary .question-summary-wrapper {
+    float: right;
+    width: 565px;
+    }
+
+    .short-summary .votes, .short-summary .status, .short-summary .views {
+        -moz-border-radius: 5px 5px 5px 5px;
+        border-bottom: 1px solid #CCCCCC;
+        border-right: 1px solid #CCCCCC;
+        float: left;
+        font-size: 11px;
+        height: 42px;
+        margin: 0 6px 0 0px;
+        padding: 8px 2px 0;
+        text-align: center;
+        width: 46px;
+    }
+
+    .short-summary .votes, .short-summary .views {
+        color: #666666;
+    }
+
+    .short-summary .favorites {
+        width: 24px;
+        float: left;
+        text-align: center;
+    }
+    h1 {
+        font-size: 160%;
+        padding: 5px 0;
+        line-height: 110%;
+        overflow: hidden;
+    }
+
+    h2 {
+        font-size: 140%;
+        padding: 3px 0;
+        line-height: 110%;
+    }
+
+    h3 {
+        font-size: 120%;
+        padding: 3px 0;
+        line-height: 110%;
+    }
+    .short-summary h2 a {
+        color: #2A5594;
+        font-family: "Trebuchet MS", "segoe ui", arial, sans-serif;
+        font-size: 17px;
+    }
+    .tabBar {
+        background-color: #FFFFFF;
+        border-bottom: 1px solid white;
+        clear: both;
+        height: 30px;
+        margin-bottom: 3px;
+        width: 100%;
+    }
+    .mobile_sort {
+        display: none;
+    }
+    .tabsA {
+        background-color: #FFFFFF;
+        display: block;
+        float: right;
+        font-weight: bold;
+        height: 20px;
+        position: relative;
+    }
+
+    .tabsA a, .sticky-sort-tabs {
+        background: none repeat scroll 0 0 #EEEEEE;
+        border-bottom: 1px solid #CCCCCC;
+        border-right: 1px solid #CCCCCC;
+        color: #888A85;
+        display: block;
+        float: left;
+        height: 20px;
+        line-height: 22px;
+        margin: 5px 4px 0 0;
+        text-decoration: none;
+    }
+
+    .tabsA a {
+        padding: 0 11px;    
+    }
+
+    .sticky-sort-tabs {
+        width: 20px;
+        padding: 0;
+    }
+
+    .sticky-sort-tabs input {
+        border: 0;
+        height: 14px;
+        width: 14px;
+        margin: 2px;
+    }
+    #searchBar {
+        text-align: center;
+        background-color: #B6C4E2;
+        border-color: #EEEEEC #A9ACA5 #BABDB6 #EEEEEC;
+        border-style: solid;
+        border-width: 1px;
+        padding: 4px 0 0;
+        height: 28px;
+        width: 988px;
+    }
+
+    #searchBar .searchInput {
+        border: 0px;
+        padding: 3px;
+        font-size: 13px;
+        height: 18px;
+        width: 400px;
+    }
+
+    #searchBar .searchBtn {
+        font-size: 14px;
+        height: 26px;
+        width: 80px;
+    }
+
+    #searchBar .options {
+        color: #333333;
+        font-size: 120%;
+        padding: 3px 0;
+    }
+    .tags a, span.tag {
+        background-color: #EEEEEE;
+        border-bottom: 1px solid #CCCCCC;
+        border-right: 1px solid #CCCCCC;
+        color: #777777;
+        font-size: 11px;
+        font-weight: normal;
+        padding: 1px 8px;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+    .paginator {
+        font: 12px sans-serif;
+        padding: 5px 0 10px;
+    }
+
+    .paginator .prev a, .paginator .prev a:visited, .paginator .next a, .paginator .next a:visited {
+        background-color: #FFFFFF;
+        border: 1px solid #FFFFFF;
+        color: #777777;
+        font: bold 100% sans-serif;
+        padding: 2px 4px 3px;
+    }
+    #ground {
+        background: none repeat scroll 0 0 #BDCCED;
+        border-top: 1px solid #000000;
+        padding-bottom: 0;
+        padding-top: 6px;
+        text-align: center;
+        width: 990px;
+    }
+
+    #top {
+        float: right;
+        padding: 3px;
+        text-align: right;
+        width: 500px;
+    }
+    .short-summary .userinfo {
+        color: #666666;
+        float: right;
+        margin-top: 8px;
+    }
+    .tags {
+        display: block;
+        font-family: sans-serif;
+        line-height: 200%;
+        margin-top: 5px;
+    }
+    #menu {
+        display: none;
+    }
+    header{
+        width: 990px;
+    }
+    #nav {
+        float: right;
+        margin: 35px 0px 0px 0px;
+        
+    }
+
+    #nav a {
+        background-color: #E5EBF8;
+        border-color: #888888 #888888 -moz-use-text-color;
+        border-style: solid solid none;
+        border-width: 1px 1px medium;
+        color: #333333;
+        display: block;
+        float: left;
+        font-size: 14px;
+        font-weight: 400;
+        height: 25px;
+        line-height: 30px;
+        margin-left: 2px;
+        padding: 0 12px 3px;
+        text-decoration: none;
+    }
+
+    #nav a:hover {
+        text-decoration: underline;
+    }
+
+    #nav a.on {
+        background: none repeat scroll 0 0 #356FCB;
+        border: 1px solid #356FCB;
+        color: #FFFFFF;
+        font-weight: 600;
+        height: 24px;
+        line-height: 28px;
+        text-decoration: none;
+    }
+
+    #nav a#nav_ask {
+        float: right;
+        color: #B02B2C;
+        font-size: 14px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    #nav a#nav_ask:hover {
+        text-decoration: underline;
+    }
+
+    #nav a#nav_ask.on {
+    color: #FFFFFF;
+    }
+    #mobile_nav {
+        display: none;
+    }
+}

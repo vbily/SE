@@ -15,16 +15,18 @@
 
 <div class="tabBar">
     {% include "question_list/title.html" %}
-    <a class="feed-icon" style="background-image:url('{% media "media/images/feed-icon-small.png" %}');" href="{{ feed_url }}" title="{% trans "subscribe to question RSS feed" %}"></a>
+    <!-- <a class="feed-icon" style="background-image:url('{% media "media/images/feed-icon-small.png" %}');" href="{{ feed_url }}" title="{% trans "subscribe to question RSS feed" %}"></a>-->
     {{ questions.paginator.sort_tabs }}
 </div>
-<div id="listA">{% for question in questions.paginator.page %}
-    {% if show_summary %}
-      {% question_list_item question question_summary=yes %}
-    {% else %}
-      {% question_list_item question %}
-    {% endif %}
-{% endfor %}</div>
+<div id="listA">
+    {% for question in questions.paginator.page %}
+        {% if show_summary %}
+        {% question_list_item question question_summary=yes %}
+        {% else %}
+        {% question_list_item question %}
+        {% endif %}
+    {% endfor %}
+</div>
 {% endblock %}
 
 {% block tail %}

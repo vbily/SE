@@ -4,6 +4,7 @@
 {% else%}
 <div class="short-summary" style="background: #FF5555;opacity: 0.5;" itemscope itemtype="http://schema.org/Question">
 {% endif %}
+{% if node.view_count > 0 or favorite_count > 0 or node.answer_count > 0%}
     <div class="counts">
         {% if favorite_count %}
         <div class="favorites">
@@ -11,12 +12,12 @@
             <div class="item-count">{{node.favourite_count|intcomma}}</div>
         </div>
         {% endif %}
-        
+        {% if node.view_count %}
         <div class="views">
              <div class="item-count">{{node.view_count|decorated_int|safe}}</div>
              <div>{% ifequal node.view_count 1 %}{% trans "view" %}{% else %}{% trans "views" %}{% endifequal %}</div>
         </div>
-
+        {% endif %}
         {% if node.answer_count %}
             {% ifequal node.answer_count 0 %} 
             <div>  
@@ -60,10 +61,9 @@
                 {% endifequal %}
             </div>
         </div >
-        {% endifequal %}  
-        
+        {% endifequal %}   
     </div>
-
+{% endif %}
     <div class="question-summary-wrapper">
         <h2 itemprop="name"><a {% if not node_summary %}title="{{ node.summary }}"{% endif %} href="{{ node.get_absolute_url }}">{{node.headline}}</a></h2>
         {% if node_summary %}
@@ -71,11 +71,12 @@
           {{ node.summary }}
         </div>
         {% endif %}
+        {% if node.last_activity_at %}
         <div class="userinfo" itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="relativetime" title="{{node.last_activity_at}}">{% diff_date node.last_activity_at %}</span>
             {% if node.last_activity_by %}{% user_signature node.last_activity_by signature_type %}{% endif %}
         </div>
-
+        {% endif %}
         <div class="tags">{% for tag in node.tagname_list %}
             <a class="tag-link-{{ tag }}" href="{% url "tag_questions" tag|urlencode %}" title="{% trans "see topics tagged" %} '{{ tag }}'" rel="tag">{{ tag }}</a>{% endfor %}
         </div>

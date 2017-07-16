@@ -2,33 +2,63 @@
 {% load extra_tags ui_registry i18n extra_filters %}
 
 	<div id="roof">
-	    <header style="position: absolute; height: 10%;color:lightgray;width:100%">
+	    <header style="position: absolute; color:lightgray;">
 		<div id="logo">
 			<a href="{% url "index" %}">
-				<img src="{{ settings.APP_LOGO }}" title="{% trans "back to home page" %}" alt="{{settings.APP_TITLE}} logo"/>
+				<img src="{{ settings.APP_LOGO }}" title="{% trans "back to home page" %}" alt="SeamenExchange"/>
 			</a>
 		</div>
-	   <nav style="display:inline-block;">
-           <ol>
-               <li>
-                   <a id="nav-questions" href="/questions/">Knowledge Base</a>
-                   <a id="nav-advisers" href="/advisors/">Advisers</a>
-               </li>
-           </ol>
-        </nav>
-		<div  style="display:inline-block;">
+        <div id="logo_mobile">
+			<a href="{% url "index" %}">
+				<img src="/upfiles/SeamenExchangeMobileLogo.png"  alt="SeamenExchange"/>
+			</a>
+		</div>
+		<div  style="float:right;">
             
 		    {% loadregistry header_links %}{% endloadregistry %}
             
 		</div>
         </header>
         <div id="nav">
+            <div class="drop_nav" style="float:left;">
+                <ul class="container">
+                    <li>
+                        <a class="left_drop" href="#" ></a>
+                        <ul >
+                            <li><a class="drop" id="nav-advisers" href="/advisors/">Advisers</a></li>
+                            <li><a class="drop" id="nav-users" href="/users/">Users</a></li>
+                            <li><a class="drop" id="nav-about" href="/about/">About</a></li>
+                            <li><a class="drop" id="nav-faq" href="/faq/">FAQ</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
             {% loopregistry page_top_tabs %}{% spaceless %}
                 <a id="nav_{{ tab_name }}"{% ifequal tab tab_name %} class="on"{% endifequal %} href="{{ tab_url }}" >{{ tab_title }}</a>
             {% endspaceless %}{% endloopregistry %}
-            <a id="nav_ask" href="{% url "ask" %}" class="special">{% trans "ask" %}</a>
-            <a id="nav_add_case" href="{% url "add_case" %}" class="special" style="float: right;color: #B02B2C;font-size: 14px;font-weight: bold;text-decoration: none;">{% trans "+ case" %}</a>
-            <a id="nav_add_article" href="{% url "add_article" %}" class="special" style="float: right;color: #B02B2C;font-size: 14px;font-weight: bold;text-decoration: none;">{% trans "+ article" %}</a>
+            <a id="nav_add_case" href="{% url "add_case" %}">  {% trans "add case" %}</a>
+            
+            <a id="nav_ask" href="{% url "ask" %}">  {% trans "ask" %}</a>
+        </div>
+        <div id="mobile_nav">
+            <div class="drop_nav" style="display:inline-block">
+                        <label for="show-menu" class="show-menu"></label>
+                        <input type="checkbox" id="show-menu" role="button">
+                        <ul id="menu">
+                            <li><a class="drop" id="nav_dashboard"{% ifequal tab "dashboard" %} class="on"{% endifequal %} href="/dashboard" >dashboard</a></li>
+                            <li><a class="drop" id="nav_cases"{% ifequal tab "cases" %} class="on"{% endifequal %} href="/cases" >cases</a></li>
+                            <li><a class="drop" id="nav_add_case" href="{% url "add_case" %}">  {% trans "add case" %}</a></li>
+                            <li><a class="drop" id="nav_library"{% ifequal tab "library" %} class="on"{% endifequal %} href="/library" >library</a></li>
+                            <li><a class="drop" id="nav-advisers" href="/advisors/">Advisers</a></li>
+                            <li><a class="drop" id="nav-users" href="/users/">Users</a></li>
+                            <li><a class="drop" id="nav-about" href="/about/">About</a></li>
+                            <li><a class="drop" id="nav-faq" href="/faq/">FAQ</a></li>
+                        </ul>
+            </div>
+            <a id="nav_questions"{% ifequal tab "questions" %} class="on"{% endifequal %} href="/questions" >questions</a>
+            <a id="nav_terms"{% ifequal tab "terms" %} class="on"{% endifequal %} href="/terms" >terms</a>
+            <a id="nav_tags"{% ifequal tab "tags" %} class="on"{% endifequal %} href="/tags" >tags</a>            
+            <a id="nav_ask" href="{% url "ask" %}">  {% trans "ask" %}</a>
         </div>
     </div>
 
@@ -41,11 +71,7 @@
             <input type="text" class="searchInput" value="{{ keywords }}" name="q" id="keywords" />
             <input type="submit" name="Submit" value="{% trans "lookup" %}" class="searchBtn" />
         </div>
-        <div class="options">
-            <input id="type-question" type="radio" value="questions" name="t" 
-                checked="checked" /><label for="type-question">{% trans "topics" %}</label>
-            <input id="type-tag" type="radio" value="tag" name="t" /><label for="type-tag">{% trans "tags" %}</label>
-        </div>
+        
     </form>	
 	</div>
 
